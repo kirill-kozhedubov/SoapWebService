@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tr="http://stcenter.netcracker.com/TestRequest"
+           attributeFormDefault="unqualified" elementFormDefault="qualified"
+           targetNamespace="http://stcenter.netcracker.com/TestRequest">
+
+
+    <xs:element name="ProjectCreationRequest" type="tr:ProjectCreationRequestType"/>
+
+    <xs:complexType name="ProjectCreationRequestType">
+        <xs:sequence>
+            <xs:element name="projectname" type="xs:string"/>
+            <xs:element name="dateformat" type="xs:string"/>
+            <xs:element name="graphs" type="tr:GraphsType"/>
+            <xs:element name="table" type="tr:TableType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GraphsType">
+        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="graph" type="tr:GraphType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GraphType">
+        <xs:sequence>
+            <xs:element name="xAxis" type="xs:string"/>
+            <xs:element name="yAxis" type="xs:string"/>
+            <xs:element name="mathCol" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TableType">
+        <xs:sequence>
+            <xs:element name="rows" type="tr:RowsType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RowsType">
+        <xs:sequence minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="Row" type="tr:RowType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="RowType">
+        <xs:sequence>
+            <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

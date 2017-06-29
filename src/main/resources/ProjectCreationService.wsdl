@@ -1,0 +1,77 @@
+<definitions
+        targetNamespace="http://stcenter.netcracker.com/SoapService" xmlns="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:tr="http://stcenter.netcracker.com/TestRequest"
+        xmlns:tre="http://stcenter.netcracker.com/TestResponse"
+        xmlns:ss="http://stcenter.netcracker.com/SoapService"
+        xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap12/">
+
+    <types>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:import namespace="http://stcenter.netcracker.com/TestRequest"
+                       schemaLocation="ProjecCreationRequest.xsd"/>
+        </xs:schema>
+        <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:import namespace="http://stcenter.netcracker.com/TestResponse"
+                       schemaLocation="ProjectCreationResponse.xsd"/>
+        </xs:schema>
+        <xs:schema targetNamespace="http://stcenter.netcracker.com/SoapService"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:element name="FaultDetail">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element minOccurs="0" name="message" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </types>
+
+    <message name="GetProjectCreationRequestMsg">
+        <part name="request" element="tr:ProjectCreationRequest" type="tr:ProjectCreationRequestType">
+        </part>
+    </message>
+    <message name="GetProjectCreationResponseMsg">
+        <part name="response" element="tre:ProjectCreationResponse" type="tre:ProjectCreationResponseType">
+        </part>
+    </message>
+
+    <message name="RemoteException">
+        <part name="RemoteException" element="ss:FaultDetail">
+        </part>
+    </message>
+
+    <portType name="SoapSamplePort">
+        <operation name="createProject">
+            <input message="ss:GetProjectCreationRequestMsg">
+            </input>
+            <output message="ss:GetProjectCreationResponseMsg">
+            </output>
+            <fault name="RemoteException" message="ss:RemoteException">
+            </fault>
+        </operation>
+    </portType>
+
+    <binding name="SoapSampleBinding" type="ss:SoapSamplePort">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="createProject">
+            <soap:operation soapAction="createProject" soapActionRequired="true"/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="RemoteException">
+                <soap:fault name="RemoteException" use="literal"/>
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="SoapSampleWebService">
+        <port name="SoapSamplePort" binding="ss:SoapSampleBinding">
+            <soap:address location="http://localhost:8080/webservices/services/API/NC/SoapWebService"/>
+        </port>
+    </service>
+</definitions>
