@@ -85,7 +85,7 @@ public class ProjectCreator {
             listOfGraphics.add(graphic);
         }
         ((DataVisualizationProjectImpl) project).setGraphics(listOfGraphics);
-        ProjectCreationDAO dao = DAOBootstrapper.bootstrapDao();
+        ProjectCreationDAO dao = new DAOBootstrapper().bootstrapDao();
         DataVisualizationProject dvFromDataBase = dao.saveProject(project);
 
         projectCreationResultHolder.setProjectName(requestAdapter.getProjectCreationAdapter().getProjectName());

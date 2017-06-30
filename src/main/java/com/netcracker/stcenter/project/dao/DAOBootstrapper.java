@@ -3,15 +3,27 @@ package com.netcracker.stcenter.project.dao;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 
+import javax.sql.DataSource;
 import java.util.TimeZone;
 
 public class DAOBootstrapper {
     private static final Logger LOGGER = Logger.getLogger(DAOBootstrapper.class);
 
 
-    public static ProjectCreationDAO bootstrapDao() {
+    public ProjectCreationDAO bootstrapDao() {
+        return new ProjectCreationDAOImpl(getSimpleJdbcCall(), getJdbcTemplate());
+    }
+
+
+    private JdbcTemplate getJdbcTemplate() {
+        return new JdbcTemplate(getDataSource());
+    }
+
+    private DataSource getDataSource() {
         TimeZone timeZone = TimeZone.getTimeZone("Europe/Helsinki");
         TimeZone.setDefault(timeZone);
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -19,12 +31,15 @@ public class DAOBootstrapper {
         dataSource.setUrl(System.getenv("TEST_SQL_JDBC_URL"));
         dataSource.setUsername(System.getenv("TEST_SQL_LOGIN"));
         dataSource.setPassword(System.getenv("TEST_SQL_PASSWORD"));
+        return dataSource;
+    }
 
-        SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(dataSource);
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
-        return new ProjectCreationDAOImpl(simpleJdbcCall, jdbcTemplate);
+    private PlatformTransactionManager getTransactionManager() {
+        return new DataSourceTransactionManager(getDataSource());
     }
 
 
+    private SimpleJdbcCall getSimpleJdbcCall() {
+        return new SimpleJdbcCall(getDataSource());
+    }
 }
