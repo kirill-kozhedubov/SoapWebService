@@ -118,7 +118,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <jar jarfile="target/SoapSampleWebService.aar">
+                                <jar jarfile="target/ProjectWebService.aar">
                                     <fileset dir="${basedir}/target/wsdl/" includes="META-INF/*.wsdl"/>
                                     <fileset dir="${basedir}/target/wsdl/" includes="META-INF/*.xml"/>
                                     <fileset dir="${basedir}/target/wsdl/" includes="META-INF/*.xsd"/>
@@ -166,7 +166,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
-                    <finalName>SoapSampleWebService</finalName>
+                    <finalName>ProjectWebService</finalName>
                     <archive>
                         <manifest>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -192,10 +192,10 @@
                         </goals>
                         <configuration>
                             <groupId>com.netcracker.stcenter.sswb</groupId>
-                            <artifactId>SoapSampleWebService</artifactId>
+                            <artifactId>ProjectWebService</artifactId>
                             <version>${project.version}</version>
                             <packaging>jar</packaging>
-                            <file>${basedir}/target/soapSampleWebService.jar</file>
+                            <file>${basedir}/target/ProjectWebService.jar</file>
                         </configuration>
                     </execution>
                     <execution>
@@ -206,10 +206,10 @@
                         </goals>
                         <configuration>
                             <groupId>com.netcracker.stcenter.sswb</groupId>
-                            <artifactId>SoapSampleWebService</artifactId>
+                            <artifactId>ProjectWebService</artifactId>
                             <version>${project.version}</version>
                             <packaging>aar</packaging>
-                            <file>${basedir}/target/soapSampleWebService.aar</file>
+                            <file>${basedir}/target/ProjectWebService.aar</file>
                         </configuration>
                     </execution>
                 </executions>
@@ -291,13 +291,13 @@
         <dependency>
             <groupId>org.apache.axis2</groupId>
             <artifactId>axis2-adb-codegen</artifactId>
-            <version>1.5.4</version>
+            <version>1.5.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.axis2</groupId>
             <artifactId>axis2-ant-plugin</artifactId>
-            <version>1.5.4</version>
+            <version>1.5.1</version>
             <scope>compile</scope>
         </dependency>
         <!--        <dependency>
@@ -310,7 +310,7 @@
         <dependency>
             <groupId>org.apache.axis2</groupId>
             <artifactId>axis2-transport-http</artifactId>
-            <version>1.6.2</version>
+            <version>1.5.1</version>
             <scope>compile</scope>
             <type>pom</type>
         </dependency>

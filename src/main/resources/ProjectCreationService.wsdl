@@ -71,7 +71,7 @@
 
     <service name="SoapSampleWebService">
         <port name="SoapSamplePort" binding="ss:SoapSampleBinding">
-            <soap:address location="http://localhost:8080/webservices/services/API/NC/SoapWebService"/>
+            <soap:address location="http://localhost:8070/webservices/services/API/NC/ProjectWebService"/>
         </port>
     </service>
 </definitions>

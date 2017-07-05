@@ -3,9 +3,7 @@ package com.netcracker.stcenter.project.dao;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.TimeZone;
@@ -28,15 +26,12 @@ public class DAOBootstrapper {
         TimeZone.setDefault(timeZone);
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("oracle.jdbc.driver.OracleDriver");
-        dataSource.setUrl(System.getenv("TEST_SQL_JDBC_URL"));
-        dataSource.setUsername(System.getenv("TEST_SQL_LOGIN"));
-        dataSource.setPassword(System.getenv("TEST_SQL_PASSWORD"));
+        dataSource.setUrl(System.getenv("SQL_JDBC_URL"));
+        dataSource.setUsername(System.getenv("SQL_LOGIN"));
+        dataSource.setPassword(System.getenv("SQL_PASSWORD"));
         return dataSource;
     }
 
-    private PlatformTransactionManager getTransactionManager() {
-        return new DataSourceTransactionManager(getDataSource());
-    }
 
 
     private SimpleJdbcCall getSimpleJdbcCall() {
