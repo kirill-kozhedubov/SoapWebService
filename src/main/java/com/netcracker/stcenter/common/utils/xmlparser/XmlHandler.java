@@ -1,6 +1,5 @@
 package com.netcracker.stcenter.common.utils.xmlparser;
 
-
 import com.netcracker.stcenter.common.exceptions.SaxInvalidDateFormatException;
 import com.netcracker.stcenter.common.exceptions.SaxTerminatorException;
 import com.netcracker.stcenter.common.utils.dateconverter.DateFormat;
@@ -48,8 +47,10 @@ public class XmlHandler extends DefaultHandler {
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        rows = new ArrayList<>();
         switch (qName) {
+            case "tes:rows":
+                rows = new ArrayList<>();
+                break;
             case "tes:Row":
                 if (stopFlag && countOfRows == 0) {
                     throw new SaxTerminatorException();
@@ -90,7 +91,8 @@ public class XmlHandler extends DefaultHandler {
         if (isElement) {
             if (elementValue.matches("^([0-9]+\\.[0-9]+)|([0-9])$")) {
                 elements.put(elementName, BigDecimal.valueOf(Double.parseDouble(elementValue)));
-            } else if (elementValue.matches("(" + dateWithoutTime + ")|(" + dateWithTime + ")|(" + dateWithTimeWithoutSeconds + ")")) {
+            } else
+            if (elementValue.matches("("+dateWithoutTime+")|("+dateWithTime+")|("+dateWithTimeWithoutSeconds+")")) {
                 Date date = new StringToDateConverter(dateFormat).convertDateFromString(elementValue);
                 if (date == null) throw new SaxInvalidDateFormatException();
                 elements.put(elementName, date);

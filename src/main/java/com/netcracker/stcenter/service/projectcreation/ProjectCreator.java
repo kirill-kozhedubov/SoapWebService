@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.netcracker.stcenter.common.ProjectCreationResultHolder;
 import com.netcracker.stcenter.common.configuration.ProjectUserInfo;
 import com.netcracker.stcenter.common.utils.dateconverter.DateFormat;
+import com.netcracker.stcenter.common.utils.graphs.CalculationService;
 import com.netcracker.stcenter.common.utils.graphs.JsonSerializer;
 import com.netcracker.stcenter.common.utils.xmlparser.XmlParser;
 import com.netcracker.stcenter.common.utils.xmlparser.XmlParserImpl;
@@ -32,7 +33,7 @@ public class ProjectCreator {
 
     public static ProjectCreationResultHolder execute(ProjectCreationRequestAdapter requestAdapter) {
         ProjectCreationResultHolder projectCreationResultHolder = new ProjectCreationResultHolder();
-
+        log.info("xml = " + requestAdapter.getProjectCreationAdapter().getTableAdapter().getTableXml());
         try {
             Path path = Paths.get(System.getProperty("java.io.tmpdir")).resolve(requestAdapter.getProjectCreationAdapter().getProjectName() + ".xml");
             Files.write(path, requestAdapter.getProjectCreationAdapter().getTableAdapter().getTableXml().getBytes());
@@ -54,7 +55,7 @@ public class ProjectCreator {
 
 
         try {
-            dataFromTable = parser.parseXmlFile(fileFromTomcat, dateFormat);
+            dataFromTable = parser.parseXmlFile(fileFromTomcat, dateFormat, 10);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -77,10 +78,10 @@ public class ProjectCreator {
             GraphicDVImpl graphic = new GraphicDVImpl.DVGraphBuilder()
                     .buildGraphicJSON(jsonGraph)
                     .buildName(project.getName() + " ws " + i)
-                   /* .buildAverage(CalculationService.calculateAverage(dataFromTable, mathCol))
+                    .buildAverage(CalculationService.calculateAverage(dataFromTable, mathCol))
                     .buildDispersion(CalculationService.calculateDispersion(dataFromTable, mathCol))
                     .buildMathExpectation(CalculationService.calculationMathExpectation(dataFromTable, mathCol))
-                    .buildOlympicAverage(CalculationService.calculateOlympicAverage(dataFromTable, mathCol))*/
+                    .buildOlympicAverage(CalculationService.calculateOlympicAverage(dataFromTable, mathCol))
                     .buildGraphic();
             listOfGraphics.add(graphic);
         }
